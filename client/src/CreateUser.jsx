@@ -12,7 +12,7 @@ function CreateUser() {
   const Submit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:1001/createUser", { name, email, age })
+      .post("http://localhost:1001/api/createUser", { name, email, age })
       .then((result) => {
         console.log(result);
         navigate("/");

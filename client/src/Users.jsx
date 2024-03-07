@@ -11,7 +11,7 @@ function Users() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:1001")
+      .get("http://localhost:1001/api")
       .then((result) => {
         console.log(result);
         setUsers(result.data);
@@ -21,7 +21,7 @@ function Users() {
 
   const handleDelete = (e) => {
     axios
-      .delete("http://localhost:1001/deleteUser/" + e)
+      .delete("http://localhost:1001/api/deleteUser/" + e)
       .then((result) => {
         console.log(result);
         window.location.reload();

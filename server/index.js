@@ -1,58 +1,26 @@
 const express = require("express");
-// const axios = require("axios");
+require("dotenv").config();
 const mongoose = require("mongoose");
 const cors = require("cors");
-const User = require("./models/users.js");
+const routes = require("./routes/routes.js");
 
-const port = 1001;
+const port = process.env.PORT || 1001;
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-mongoose.connect("mongodb://localhost/userCRUD");
-
-app.post("/createUser", (req, res) => {
-  User.create(req.body)
-    .then((users) => res.json(users))
-    .catch((err) => res.json(err));
-}); 
-
 app.get("/", (req, res) => {
-  User.find({})
-    .then((users) => res.json(users))
-    .catch((err) => res.json(err));
+  res.send("API server is working...");
 });
 
-app.get("/getUser/:id", (req, res) => {
-  const id = req.params.id;
-  User.findById({ _id: id })
-    .then((users) => res.json(users))
-    .catch((err) => res.json(err));
-});
+app.use("/api", routes);
 
-app.delete("/deleteUser/:id", (req, res) => {
-  const id = req.params.id;
-  User.findByIdAndDelete({ _id: id })
-    .then((users) => res.json(users))
-    .catch((err) => res.json(err));
-});
-
-app.put("/updateUser/:id", (req, res) => {
-  const id = req.params.id;
-  User.findByIdAndUpdate(
-    { _id: id },
-    {
-      name: req.body.name,
-      email: req.body.email,
-      age: req.body.age,
-    }
-  )
-    .then((users) => res.json(users))
-    .catch((err) => res.json(err));
-});
-
-app.listen(port, () => {
-  console.log(`App running on http://localhost:${port}`);
+mongoose.connect("mongodb://localhost/userCRUD").then(() => {
+  console.log("Connected to mongoDB");
+  app.listen(port, () => {
+    console.log(`App running on http://localhost:${port}`);
+  });
 });
