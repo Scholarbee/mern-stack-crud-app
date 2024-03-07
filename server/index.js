@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 
 app.use("/api", routes);
 
-mongoose.connect("mongodb://localhost/userCRUD").then(() => {
+mongoose.connect(process.env.MONGODB_URI).then(() => {
   console.log("Connected to mongoDB");
   app.listen(port, () => {
     console.log(`App running on http://localhost:${port}`);
